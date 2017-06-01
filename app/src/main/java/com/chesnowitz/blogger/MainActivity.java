@@ -1,9 +1,12 @@
 package com.chesnowitz.blogger;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
               public void onComplete(@NonNull Task<AuthResult> task) {
                if (task.isSuccessful()) {
                  Toast.makeText(MainActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
+
+                 startActivity(new Intent(MainActivity.this, PostListActivity.class));
                } else {
                  // Not signed in...
                }
@@ -82,8 +87,30 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_signout) {
+      mAuth.signOut();
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
   protected void onStart() {
     super.onStart();
     mAuth.addAuthStateListener(mAuthListener);
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    if (mAuthListener != null) {
+      mAuth.removeAuthStateListener(mAuthListener);
+    }
   }
 }
