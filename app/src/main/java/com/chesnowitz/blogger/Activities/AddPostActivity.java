@@ -1,7 +1,9 @@
-package com.chesnowitz.blogger;
+package com.chesnowitz.blogger.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.chesnowitz.blogger.R;
 
 public class AddPostActivity extends AppCompatActivity {
 

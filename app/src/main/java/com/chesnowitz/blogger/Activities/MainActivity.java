@@ -1,4 +1,4 @@
-package com.chesnowitz.blogger;
+package com.chesnowitz.blogger.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.chesnowitz.blogger.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {
           Toast.makeText(MainActivity.this, "You are signed in.", Toast.LENGTH_LONG).show();
+//          startActivity(new Intent(MainActivity.this, PostListActivity.class));
         } else {
           Toast.makeText(MainActivity.this, "You are signed out.", Toast.LENGTH_LONG).show();
         }

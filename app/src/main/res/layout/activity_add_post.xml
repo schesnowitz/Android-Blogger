@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chesnowitz.blogger.AddPostActivity">
+    tools:context="com.chesnowitz.blogger.Activities.AddPostActivity">
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -22,13 +22,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026"
-        app:srcCompat="@mipmap/add_button"/>
+        app:srcCompat="@mipmap/add_button"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <EditText
         android:id="@+id/etAddPostTitle"
         android:padding="8dp"
         android:background="@drawable/input_outline"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
@@ -42,13 +44,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <EditText
         android:id="@+id/etAddPostDescription"
         android:padding="8dp"
         android:background="@drawable/input_outline"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="245dp"
         android:layout_marginLeft="8dp"
@@ -62,11 +66,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddPostTitle"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <Button
         android:id="@+id/submitPost"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
@@ -79,5 +85,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddPostDescription"
-        app:layout_constraintVertical_bias="0.946"/>
+        app:layout_constraintVertical_bias="0.946"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 </android.support.constraint.ConstraintLayout>
