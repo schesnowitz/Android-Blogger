@@ -47,7 +47,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
     // set up 'view widgets'
 
     holder.title.setText(blog.getTitle());
-    holder.description.setText(blog.getDecription());
+    holder.description.setText(blog.getDescription());
 
 
     java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();

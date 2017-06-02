@@ -6,7 +6,7 @@ package com.chesnowitz.blogger.Model;
 
 public class Blog {
   public String title;
-  public String decription;
+  public String description;
   public String image;
   public String timestamp;
   public String user_id;
@@ -14,9 +14,9 @@ public class Blog {
   public Blog() {
   }
 
-  public Blog(String title, String decription, String image, String timestamp, String user_id) {
+  public Blog(String title, String description, String image, String timestamp, String user_id) {
     this.title = title;
-    this.decription = decription;
+    this.description = description;
     this.image = image;
     this.timestamp = timestamp;
     this.user_id = user_id;
@@ -30,12 +30,12 @@ public class Blog {
     this.title = title;
   }
 
-  public String getDecription() {
-    return decription;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDecription(String decription) {
-    this.decription = decription;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getImage() {
