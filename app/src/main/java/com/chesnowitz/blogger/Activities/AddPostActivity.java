@@ -55,7 +55,7 @@ public class AddPostActivity extends AppCompatActivity {
 
     firebaseDatabase = FirebaseDatabase.getInstance();
     databaseReference = firebaseDatabase.getInstance().getReference().child("Blogger");
-    databaseReference.keepSynced(true);
+//    databaseReference.keepSynced(true);
 
     postImage = (ImageButton) findViewById(R.id.imageButton);
     postTitle = (EditText) findViewById(R.id.etAddPostTitle);
