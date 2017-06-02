@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chesnowitz.blogger.Model.Blog;
 import com.chesnowitz.blogger.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -58,6 +59,9 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
 
     imageUrl = blog.getImage();
     // TODO ---->  use picasso to load image
+    Picasso.with(context)
+            .load(imageUrl)
+            .into(holder.image);
   }
 
   @Override
