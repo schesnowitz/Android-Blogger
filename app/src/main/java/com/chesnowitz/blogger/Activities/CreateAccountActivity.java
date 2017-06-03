@@ -2,6 +2,7 @@ package com.chesnowitz.blogger.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -24,6 +30,7 @@ public class CreateAccountActivity extends AppCompatActivity {
   private EditText email;
   private EditText password;
   private ImageButton profileImage;
+  private Uri resultUri = null;
   private static final int GALLERY_CODE = 123;
   private Button bCreateAccount;
 
@@ -31,6 +38,7 @@ public class CreateAccountActivity extends AppCompatActivity {
   private FirebaseDatabase firebaseDatabase;
   private FirebaseAuth firebaseAuth;
   private ProgressDialog progressDialog;
+  private StorageReference firebaseStorage;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     firebaseDatabase = FirebaseDatabase.getInstance();
     databaseReference = firebaseDatabase.getReference().child("User");
     firebaseAuth = FirebaseAuth.getInstance();
+    firebaseStorage = FirebaseStorage.getInstance().getReference().child("Profile_Image");
+
     progressDialog = new ProgressDialog(this);
 
     firstName = (EditText) findViewById(R.id.caFirstName);
@@ -85,21 +95,45 @@ public class CreateAccountActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                   if (authResult != null) {
-                    String user_id = firebaseAuth.getCurrentUser().getUid();
-                    DatabaseReference currentUserReference = databaseReference.child(user_id);
-                    currentUserReference.child("first_name").setValue(userFirstName);
-                    currentUserReference.child("last_name").setValue(userLastName);
-                    currentUserReference.child("email").setValue(userEmail);
-                    currentUserReference.child("paswword").setValue(userPassword);
-                    currentUserReference.child("image").setValue("nada");
+                      StorageReference imagePath = firebaseStorage.child("Profile_Image")
+                              .child(resultUri.getLastPathSegment());
 
-                    progressDialog.dismiss();
+                    imagePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                      @Override
+                      public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        String user_id = firebaseAuth.getCurrentUser().getUid();
+                        DatabaseReference currentUserReference = databaseReference.child(user_id);
+                        currentUserReference.child("first_name").setValue(userFirstName);
+                        currentUserReference.child("last_name").setValue(userLastName);
+                        currentUserReference.child("email").setValue(userEmail);
+                        currentUserReference.child("paswword").setValue(userPassword);
+                        currentUserReference.child("image").setValue(resultUri.toString());
 
-                    // redirect the user
+                        progressDialog.dismiss();
 
-                    Intent intent = new Intent(CreateAccountActivity.this, PostListActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                        // redirect the user
+
+                        Intent intent = new Intent(CreateAccountActivity.this, PostListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                      }
+                    });
+
+//                    String user_id = firebaseAuth.getCurrentUser().getUid();
+//                    DatabaseReference currentUserReference = databaseReference.child(user_id);
+//                    currentUserReference.child("first_name").setValue(userFirstName);
+//                    currentUserReference.child("last_name").setValue(userLastName);
+//                    currentUserReference.child("email").setValue(userEmail);
+//                    currentUserReference.child("paswword").setValue(userPassword);
+//                    currentUserReference.child("image").setValue("nada");
+//
+//                    progressDialog.dismiss();
+//
+//                    // redirect the user
+//
+//                    Intent intent = new Intent(CreateAccountActivity.this, PostListActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
                   }
                 }
               });
@@ -109,8 +143,26 @@ public class CreateAccountActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+
     if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
 
+      Uri imageUri = data.getData();
+
+      CropImage.activity(imageUri)
+              .setAspectRatio(1, 1)
+              .setGuidelines(CropImageView.Guidelines.ON)
+              .start(this);
+    }
+    if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+      CropImage.ActivityResult result = CropImage.getActivityResult(data);
+      if (resultCode == RESULT_OK) {
+        resultUri = result.getUri();
+
+        profileImage.setImageURI(resultUri);
+
+      } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+        Exception error = result.getError();
+      }
     }
   }
 }
