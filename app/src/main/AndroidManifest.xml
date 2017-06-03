@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".Activities.AddPostActivity">
         </activity>
+        <activity android:name=".Activities.CreateAccountActivity">
+        </activity>
     </application>
 
 </manifest>
